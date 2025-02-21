@@ -101,7 +101,11 @@ R = np.array([[0.1]])  # Control cost
 
 ## Simulation Details
 - **Duration:** 80s
-- **Recovery time:** 2.5s
+- **Recovery time:** 3-5s
+
+##Result
+![IMG_0798](https://github.com/user-attachments/assets/b5f3c14d-d066-459d-aab9-3eaff876734c)
+
 
 ## Conclusion
 The final LQR tuning **significantly improved stability** under seismic disturbances by:
