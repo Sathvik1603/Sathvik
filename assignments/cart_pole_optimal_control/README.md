@@ -100,7 +100,7 @@ R = np.array([[0.1]])  # Control cost
 - **Smooth Control Effort:** No excessive oscillations despite a slight increase in peak control force
 
 ## Simulation Details
-- **Duration:** 80s
+- **Duration:** 120s
 - **Recovery time:** 3-5s
 
 ## Result
