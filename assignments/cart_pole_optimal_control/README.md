@@ -1,7 +1,7 @@
 # Cart-Pole Optimal Control
 
-###Name - Sathvik Merugu
-###ASU ID - 1235373752
+##Name - Sathvik Merugu
+##ASU ID - 1235373752
 
 ## Introduction
 This project involves analyzing and tuning a **Linear Quadratic Regulator (LQR)** controller for a cart-pole system subjected to **earthquake-simulation disturbances**. The primary goal is to keep the cart within the **track constraints (±2.5 m)** while ensuring the pendulum remains in its **upright position**.
