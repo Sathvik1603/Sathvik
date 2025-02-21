@@ -106,6 +106,12 @@ R = np.array([[0.1]])  # Control cost
 ## Result
 ![IMG_0798](https://github.com/user-attachments/assets/b5f3c14d-d066-459d-aab9-3eaff876734c)
 
+![Screenshot (82)](https://github.com/user-attachments/assets/747649af-347f-4c7f-aba8-3b7d20686792)
+
+![Screenshot (83)](https://github.com/user-attachments/assets/86fd9b63-7515-416c-90da-043c992c6dc5)
+
+
+
 
 ## Conclusion
 The final LQR tuning **significantly improved stability** under seismic disturbances by:
