@@ -103,7 +103,7 @@ R = np.array([[0.1]])  # Control cost
 - **Duration:** 80s
 - **Recovery time:** 3-5s
 
-##Result
+## Result
 ![IMG_0798](https://github.com/user-attachments/assets/b5f3c14d-d066-459d-aab9-3eaff876734c)
 
 
