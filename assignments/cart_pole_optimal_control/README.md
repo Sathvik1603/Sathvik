@@ -106,6 +106,12 @@ R = np.array([[0.1]])  # Control cost
 ## Result
 ![IMG_0798](https://github.com/user-attachments/assets/b5f3c14d-d066-459d-aab9-3eaff876734c)
 
+
+
+https://github.com/user-attachments/assets/a15cdb8c-6a6f-4a21-a2d4-339e06fa1207
+
+
+
 ![Screenshot (82)](https://github.com/user-attachments/assets/747649af-347f-4c7f-aba8-3b7d20686792)
 
 ![Screenshot (83)](https://github.com/user-attachments/assets/86fd9b63-7515-416c-90da-043c992c6dc5)
