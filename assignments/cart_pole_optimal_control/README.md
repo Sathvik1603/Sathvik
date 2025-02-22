@@ -1,4 +1,4 @@
-# Cart-Pole Optimal Control
+# Cart-Pole Optimal Control Assignment
 
 - Name - Sathvik Merugu
 - ASU ID - 1235373752
@@ -97,6 +97,32 @@ R = np.array([[0.1]])  # Control cost
 - **Control effort penalty remains at 0.1** to allow moderate force usage while preventing excessive actuator effort.
 
 ## Performance Analysis
+### Short-Term Response (~20 ms)
+- Immediate response observed in cart position, velocity, pole angle, and angular velocity.
+- System rapidly reacts to the initial conditions and control inputs.
+- High-frequency dynamics managed efficiently to prevent instability.
+
+### Long-Term Response (10s)
+- The system exhibits small oscillations before settling, indicating effective damping properties.
+- The designed control strategy ensures a smooth transition to equilibrium without excessive overshooting.
+- The settling time is minimized, demonstrating the robustness of the implemented controller.
+
+## Cart Position & Velocity
+- The cart stabilizes quickly with minor oscillations that diminish over time.
+- Initial velocity starts negative due to disturbance response and smoothly converges toward zero, showcasing effective damping.
+- The control algorithm dynamically adjusts the cart position to maintain pole stability without unnecessary displacement.
+
+## Pole Stability
+- Minimal angular deviation throughout the response phase, demonstrating precise control.
+- The pole smoothly returns to equilibrium with minimal overshoot, confirming effective Q-matrix tuning in the LQR framework.
+- Robust against minor disturbances, ensuring continuous stabilization under realistic conditions.
+
+## Control Force Efficiency
+- Control force application is smooth and peaks around 5s, ensuring an optimal balance between responsiveness and efficiency.
+- Avoids excessive control effort, aligning with R-matrix tuning to penalize unnecessary actuation.
+- Ensures energy-efficient performance by minimizing the control input while maintaining stability.
+
+## Improved performance Matrix
 - **Improved Pole Stability:** Angle deviation reduced from **7.5° to 5.2°**
 - **Reduced Cart Travel:** RMS cart position decreased from **0.48m to 0.38m**
 - **Faster Recovery:** 30% quicker recovery from disturbances
