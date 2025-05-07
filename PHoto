@@ -1,0 +1,79 @@
+# 🚀 Apollo 17 Photogrammetry & Gaussian Splatting Project
+
+This project explores the reconstruction of 3D models from Apollo 17 lunar surface imagery using **Agisoft Metashape** and **Gaussian Splatting** (Nerfstudio). The workflow covers photogrammetric modeling, neural view synthesis, and quantitative evaluation using **SSIM** and **PSNR** metrics.
+
+## 📂 Dataset
+- **Source:** Apollo 17 Lunar Surface Images.
+- **Original Images:** 15 high-resolution photos.
+
+## 📌 Objectives
+- Reconstruct a textured 3D mesh model using photogrammetry.
+- Apply Gaussian Splatting to recover original views and synthesize novel perspectives.
+- Evaluate the quality of rendered views using **SSIM** and **PSNR**.
+- Augment the photogrammetric model with Gaussian Splatting-derived views to improve model coverage and accuracy.
+
+---
+
+## 🟢 Part A: Photogrammetry & Gaussian Splatting — Original Views
+
+### Methodology
+- The **15 Apollo 17 images** were imported into **Agisoft Metashape**.
+- Images were aligned to generate a sparse point cloud.
+- A **dense point cloud** was created with point cloud confidence enabled.
+- A **3D mesh** was reconstructed and textured.
+- Camera parameters and images were exported in **COLMAP format** for compatibility with **Nerfstudio**.
+- The Gaussian Splatting model was trained (`ns-train gaussian-splatting`) and rendered views were generated (`ns-export`).
+- **SSIM** and **PSNR** were computed between original images and slightly modified versions (blurred) to assess metric response.
+
+### Results
+- **Average SSIM:** 0.9156
+- **Average PSNR:** 33.89 dB
+- Recovered views closely resembled the original images with minimal perceptual and pixel-level differences.
+- The photogrammetric model exhibited accurate geometry and realistic texture details.
+
+---
+
+## 🟠 Part B: Enhanced Photogrammetry with Gaussian Splatting-Derived Views
+
+### Methodology
+- **10 novel camera poses** were created covering areas not well-represented in the original images.
+- Novel views were synthesized using the trained Gaussian Splatting model.
+- The dataset was augmented to **25 images** (15 original + 10 splatted views).
+- All **25 images were aligned successfully** in **Agisoft Metashape**.
+- The photogrammetric process was repeated to reconstruct an updated 3D model.
+- Qualitative comparison and quantitative metrics (**SSIM & PSNR**) were used to assess improvements.
+
+### Results
+
+#### Qualitative Improvements
+- **Better surface coverage** and reduced gaps.
+- **Improved texture mapping**.
+- Areas previously lacking coverage showed **enhanced detail**.
+
+#### Quantitative Metrics
+- **SSIM** increased from **0.6503** to **0.858**.
+- **PSNR** improved from **22.41 dB** to **26.52 dB**.
+
+#### Visual Comparison
+- The augmented model exhibited a **denser mesh** and **more uniform texture mapping**.
+- New views filled gaps and improved spatial consistency.
+
+---
+
+## ✅ Conclusion
+
+Integrating Gaussian Splatting-derived views into the photogrammetric workflow significantly enhanced the model's quality and completeness. This project demonstrates the power of combining **classical photogrammetry** with **modern neural rendering techniques** to achieve more accurate and detailed 3D reconstructions.
+
+---
+
+## 🔗 Tools & Libraries
+- **Agisoft Metashape**
+- **Nerfstudio (Gaussian Splatting)**
+- **COLMAP**
+- **scikit-image**
+- **OpenCV**
+
+## 📚 References
+- Kerbl, B., Kopanas, G., Leimkühler, T., & Ritschel, T. (2023). 3D Gaussian Splatting for Real-Time Radiance Field Rendering.
+- Agisoft Metashape Documentation.
+- COLMAP Documentation.
