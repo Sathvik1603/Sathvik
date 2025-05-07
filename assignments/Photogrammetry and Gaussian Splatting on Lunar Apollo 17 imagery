@@ -1,0 +1,79 @@
+# Photogrammetry and Gaussian Splatting on Lunar Apollo 17 Imagery
+
+**Author:** Sathvik Merugu  
+**ASU ID:** 1235373752
+
+## Abstract
+
+This project explores the integration of photogrammetric modeling and Gaussian Splatting techniques to process and analyze Apollo 17 lunar imagery.  
+- **Part A**: Developed a 3D textured mesh using 15 original Apollo 17 photographs and evaluated view recovery quality using SSIM and PSNR.  
+- **Part B**: Generated 10 novel views using Gaussian Splatting, reprocessed the augmented dataset, and compared improvements in model quality.
+
+## Table of Contents
+- [Abstract](#abstract)
+- [Methodology](#methodology)
+  - [Part A](#part-a-photogrammetry-and-gaussian-splatting---original-views)
+  - [Part B](#part-b-photogrammetry-enhancement-using-gaussian-splatting-derived-views)
+- [Results](#results)
+- [Conclusion](#conclusion)
+- [References](#references)
+
+## Methodology
+
+### Part A: Photogrammetry and Gaussian Splatting — Original Views
+
+**Dataset**  
+- 15 high-resolution Apollo 17 images.
+
+**Photogrammetry Processing (Agisoft Metashape)**  
+1. Imported and aligned all images.
+2. Generated a dense point cloud with confidence visualization.
+3. Reconstructed a 3D mesh and applied high-resolution textures.
+
+**Gaussian Splatting (Nerfstudio)**  
+- Exported images and camera parameters in COLMAP format.
+- Prepared data using `ns-process-data colmap`.
+- Trained Gaussian Splatting model using `ns-train gaussian-splatting`.
+- Rendered original views using `ns-export`.
+
+**Similarity Metrics**  
+- Calculated SSIM and PSNR using Python libraries (`scikit-image` and `opencv-python`).
+
+---
+
+### Part B: Photogrammetry Enhancement Using Gaussian Splatting-Derived Views
+
+**Novel View Generation**  
+- Generated 10 new views covering underrepresented areas using the trained Gaussian Splatting model.
+
+**Photogrammetry with Augmented Dataset**  
+- Combined the 15 original and 10 new images (total 25).
+- Repeated the photogrammetry workflow (alignment, dense cloud, mesh, texture).
+
+**Evaluation**  
+- Visual (qualitative) and metric-based (quantitative) comparisons.
+
+## Results
+
+### Part A (Original Views)
+- **SSIM**: Average 0.6503.
+- **PSNR**: Average 22.41 dB.
+- Textured mesh displayed accurate geometry and realistic textures.
+
+### Part B (Augmented Dataset)
+- **SSIM**: Improved to 0.858.
+- **PSNR**: Increased to 26.52 dB.
+- Model showed better surface coverage, fewer gaps, denser mesh, and improved texture continuity.
+
+## Conclusion
+
+The study demonstrated that integrating Gaussian Splatting-derived novel views into the photogrammetric workflow significantly enhances 3D model quality, both structurally and visually. These methods can potentially improve future planetary surface modeling tasks.
+
+## References
+
+- Scikit-Image Library
+- OpenCV Library
+- Agisoft Metashape Professional
+- Nerfstudio Documentation
+- Apollo 17 Image Archive
+
