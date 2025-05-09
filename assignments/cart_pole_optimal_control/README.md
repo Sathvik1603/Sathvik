@@ -85,11 +85,11 @@ R = [[0.01]]
 
 ## Performance Analysis
 
-### 🔹 Short-Term (first 20ms)
+### Short-Term (first 20ms)
 - Immediate reaction to disturbance
 - Quick stabilization of both pole and cart
 
-### 🔹 Long-Term (10s)
+### Long-Term (10s)
 - Slight oscillations quickly damped
 - Efficient return to equilibrium
 - Low overshoot and steady-state error
