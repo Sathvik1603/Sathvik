@@ -1,163 +1,164 @@
 # Cart-Pole Optimal Control Assignment
 
-- Name - Sathvik Merugu
-- ASU ID - 1235373752
+**Name:** Sathvik Merugu  
+**ASU ID:** 1235373752
+
+---
 
 ## Introduction
-This project involves analyzing and tuning a **Linear Quadratic Regulator (LQR)** controller for a cart-pole system subjected to **earthquake-simulation disturbances**. The primary goal is to keep the cart within the **track constraints (±2.5 m)** while ensuring the pendulum remains in its **upright position**.
+This project focuses on designing and analyzing an **LQR (Linear Quadratic Regulator)** controller for a cart-pole system subjected to **earthquake-like disturbances**. The main goal is to:
+- Keep the **cart within ±2.5 m** of its track,
+- Maintain the **pole in the upright position**, despite disturbances.
+
+---
 
 ## System Description
 
-### Physical Setup
-- Inverted pendulum mounted on a cart
-- Cart traversal range: **±2.5m** (total range: **5m**)
-- Pole length: **1m**
-- Cart mass: **1.0 kg**
-- Pole mass: **1.0 kg**
+### Physical Configuration
+- Inverted pendulum on a cart  
+- **Track limits:** ±2.5 m (total range: 5 m)  
+- **Pole length:** 1 m  
+- **Cart mass:** 1.0 kg  
+- **Pole mass:** 1.0 kg  
 
-### Disturbance Generator
-- Generates **continuous, earthquake-like forces** using the superposition of sine waves
-- **Base amplitude:** 15.0N (default)
-- **Frequency range:** 0.5 - 4.0 Hz (default)
-- Includes **random variations** in amplitude and phase
-- Adds **Gaussian noise**
+### Disturbance Profile
+- Superimposed sine wave signals (frequency: 0.5–4.0 Hz)
+- Amplitude: 15.0 N (with random fluctuations)
+- Includes Gaussian noise to mimic realistic earthquake dynamics
+
+---
 
 ## Objectives
-- **Minimize cart travel** to prevent exceeding the track limits (**±2.5m**)
-- **Improve pole stability** by reducing angular deviations under disturbances
-- **Optimize control effort** to avoid excessive force commands
+- **Limit cart motion** within ±2.5 m
+- **Minimize pole oscillations**
+- **Reduce control effort** without compromising performance
+
+---
 
 ## LQR Controller
+
 ### What is LQR?
-A **Linear Quadratic Regulator (LQR)** is an optimal state-feedback control method used to stabilize linear dynamic systems while minimizing a specific cost function. It is widely used in control engineering for applications requiring stability, efficiency, and robustness.
+LQR optimally stabilizes dynamic systems using state feedback, by minimizing a cost function that balances performance and control effort.
 
-LQR is particularly useful for systems where:
-- The dynamics can be modeled using **state-space equations**.
-- The objective is to balance **performance and control effort optimally**.
-- A **quadratic cost function** is appropriate for defining system goals.
-
-### Mathematical Formulation
-The system dynamics are represented in a **state-space model**:
-
-```math
-\dot{x} = Ax + Bu
+### LQR Equations
+System state-space model:
+```
+dx/dt = Ax + Bu
 ```
 
-where:
-- \( x \) is the **state vector** (e.g., position, velocity, angle).
-- \( u \) is the **control input**.
-- \( A \) is the **system dynamics matrix**.
-- \( B \) is the **control input matrix**.
-
-The objective of the LQR controller is to **minimize the cost function**:
-
-```math
-J = \int_0^\infty (x^T Q x + u^T R u) dt
+Cost function:
+```
+J = ∫ (xᵀQx + uᵀRu) dt
 ```
 
-where:
-- \( Q \) is the **state cost matrix** (penalizes deviations from desired states).
-- \( R \) is the **control cost matrix** (penalizes excessive control effort).
-
-LQR computes an **optimal feedback control law**:
-
-```math
+Optimal control law:
+```
 u = -Kx
 ```
+Where:
+- \( Q \): State penalty matrix  
+- \( R \): Control effort penalty  
+- \( K \): Gain matrix computed from solving CARE (Continuous Algebraic Riccati Equation)
 
-where **\( K \) is the optimal gain matrix**, calculated as:
+---
 
-```math
-K = R^{-1} B^T P
-```
+### Parameter Tuning
 
-where **\( P \)** is obtained by solving the **Continuous Algebraic Riccati Equation (CARE)**:
-
-```math
-A^T P + PA - PBR^{-1} B^T P + Q = 0
-```
-
-### Existing LQR Parameters
-Before tuning, the system used the following LQR cost matrices:
+**Initial LQR matrices:**
 ```python
-Q = np.diag([1.0, 1.0, 10.0, 10.0])  # State cost
-R = np.array([[0.1]])  # Control cost
+Q = diag([1.0, 1.0, 10.0, 10.0])
+R = [[0.1]]
 ```
 
-### Tuned LQR Parameters
-After systematic tuning, the parameters were adjusted to:
+**Tuned LQR matrices:**
 ```python
-Q = np.diag([1.0, 3.0, 1.0, 3.0])  # State cost
-R = np.array([[0.1]])  # Control cost
+Q = diag([1.0, 3.0, 1.0, 3.0])
+R = [[0.01]]
 ```
 
-### Tuning Adjustments
-- **Increased velocity weights (3.0):** Emphasizes rapid stabilization and smooth transitions.
-- **Cart position and pole angle given equal weight**
-- **Control effort penalty remains at 0.1** to allow moderate force usage while preventing excessive actuator effort.
+**Tuning Rationale:**
+- Increased velocity weight → faster stabilization
+- Balanced pole angle vs. cart position
+- Reduced R → allows quicker responses with acceptable control usage
+
+---
 
 ## Performance Analysis
-### Short-Term Response (~20 ms)
-- Immediate response observed in cart position, velocity, pole angle, and angular velocity.
-- System rapidly reacts to the initial conditions and control inputs.
-- High-frequency dynamics managed efficiently to prevent instability.
 
-### Long-Term Response (10s)
-- The system exhibits small oscillations before settling, indicating effective damping properties.
-- The designed control strategy ensures a smooth transition to equilibrium without excessive overshooting.
-- The settling time is minimized, demonstrating the robustness of the implemented controller.
+### 🔹 Short-Term (first 20ms)
+- Immediate reaction to disturbance
+- Quick stabilization of both pole and cart
 
-## Cart Position & Velocity
-- The cart stabilizes quickly with minor oscillations that diminish over time.
-- Initial velocity starts negative due to disturbance response and smoothly converges toward zero, showcasing effective damping.
-- The control algorithm dynamically adjusts the cart position to maintain pole stability without unnecessary displacement.
+### 🔹 Long-Term (10s)
+- Slight oscillations quickly damped
+- Efficient return to equilibrium
+- Low overshoot and steady-state error
 
-## Pole Stability
-- Minimal angular deviation throughout the response phase, demonstrating precise control.
-- The pole smoothly returns to equilibrium with minimal overshoot, confirming effective Q-matrix tuning in the LQR framework.
-- Robust against minor disturbances, ensuring continuous stabilization under realistic conditions.
+---
 
-## Control Force Efficiency
-- Control force application is smooth and peaks around 5s, ensuring an optimal balance between responsiveness and efficiency.
-- Avoids excessive control effort, aligning with R-matrix tuning to penalize unnecessary actuation.
-- Ensures energy-efficient performance by minimizing the control input while maintaining stability.
+## Simulation Results
 
-## Improved performance Matrix
-- **Improved Pole Stability:** Angle deviation reduced from **7.5° to 5.2°**
-- **Reduced Cart Travel:** RMS cart position decreased from **0.48m to 0.38m**
-- **Faster Recovery:** 30% quicker recovery from disturbances
-- **Smooth Control Effort:** No excessive oscillations despite a slight increase in peak control force
+### Cart Position & Velocity
+- Cart stays well within ±2.5m
+- RMS cart travel reduced from **0.48 m → 0.38 m**
 
-## Simulation Details
-- **Duration:** 120s
-- **Recovery time:** 3-5s
+### Pole Stability
+- Angular deviation reduced from **7.5° → 5.2°**
+- System recovers from disturbances faster (30% improvement)
 
-## Result
-![IMG_0798](https://github.com/user-attachments/assets/b5f3c14d-d066-459d-aab9-3eaff876734c)
+### Control Force
+- Smooth actuation with no high-frequency spikes
+- Slight increase in peak force, but energy efficient
 
+---
 
+## Improved Performance Summary
 
-https://github.com/user-attachments/assets/a15cdb8c-6a6f-4a21-a2d4-339e06fa1207
+| Metric | Before | After |
+|--------|--------|-------|
+| RMS Cart Position | 0.48 m | 0.38 m |
+| Max Pole Angle Deviation | 7.5° | 5.2° |
+| Recovery Time | ~5s | ~3.5s |
+| Control Force Spikes | Moderate | Lower |
 
+---
 
+## Simulation Info
+- **Simulation Time:** 120 s  
+- **Observed Recovery:** 3–5 s post disturbance
 
-![Screenshot (82)](https://github.com/user-attachments/assets/747649af-347f-4c7f-aba8-3b7d20686792)
+---
 
-![Screenshot (83)](https://github.com/user-attachments/assets/86fd9b63-7515-416c-90da-043c992c6dc5)
-
+## Visual Results
 
 
+
+
+https://github.com/user-attachments/assets/36c7035b-e494-4c26-bb69-eaf569d51218
+
+
+
+
+
+### Cart Position:
+![Screenshot 2025-05-10 012723](https://github.com/user-attachments/assets/d0d425ad-886f-44bd-9586-cc0da719a5e3)
+
+
+### Pole Angle:
+![Screenshot 2025-05-10 014500](https://github.com/user-attachments/assets/85634a2f-3000-40d3-be18-7b5900eb0e0f)
+
+
+---
 
 ## Conclusion
-The final LQR tuning **significantly improved stability** under seismic disturbances by:
-- Reducing pole angle deviations
-- Minimizing cart displacement
-- Speeding up recovery times
-- Keeping control effort within acceptable limits
+The tuned LQR controller **effectively stabilized** the cart-pole system under dynamic seismic-like forces. It:
+- Reduced angle deviation,
+- Limited cart travel,
+- Increased recovery speed,
+- Maintained energy-efficient control input.
 
-This tuning achieves a balance between **fast disturbance rejection and efficient energy usage**, ensuring **robust performance** across varying seismic conditions.
+This demonstrates that a well-tuned LQR can deliver **robust, stable, and responsive performance** in real-world-like conditions.
 
-
-
+---
 
 
