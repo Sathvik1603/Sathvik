@@ -157,7 +157,7 @@ The tuned LQR controller **effectively stabilized** the cart-pole system under d
 - Increased recovery speed,
 - Maintained energy-efficient control input.
 
-This demonstrates that a well-tuned LQR can deliver **robust, stable, and responsive performance** in real-world-like conditions.
+This demonstrates that a well-tuned LQR can deliver **robust, stable, and responsive performance**.
 
 ---
 
